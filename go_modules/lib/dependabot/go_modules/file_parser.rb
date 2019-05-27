@@ -17,7 +17,7 @@ module Dependabot
         dependency_set = Dependabot::FileParsers::Base::DependencySet.new
 
         i = 0
-        chunks = module_info(go_mod).lines.
+        chunks = module_info(go_mod).lines.reject { line =~ ^[ \t]* }.
                  group_by { |line| line == "{\n" ? i += 1 : i }
         deps = chunks.values.map { |chunk| JSON.parse(chunk.join) }
 
